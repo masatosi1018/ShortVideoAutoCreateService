@@ -2,6 +2,13 @@ video:
   width: 1080
   height: 1920
 
+heygen:
+  avatar_id: c1f1e2a47f4e4f58b1e16fdc87642bde
+  scene_fit: crop
+  use_avatar_iv_model: true
+  talking_photo_scale: 2.8
+  avatar_playback_speed: 1.25
+
 subtitle_style:
   font_size: 48
   font_color: "#FFFFFF"

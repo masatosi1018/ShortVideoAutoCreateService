@@ -161,6 +161,10 @@ def run() -> int:
             {
                 "raw_path": str(job_paths.avatar_video_raw),
                 "path": str(job_paths.avatar_video),
+                "avatar_id": settings.heygen_avatar_id,
+                "scene_fit": settings.heygen_scene_fit,
+                "use_avatar_iv_model": settings.heygen_use_avatar_iv_model,
+                "talking_photo_scale": settings.heygen_talking_photo_scale,
                 "playback_speed": settings.avatar_playback_speed,
                 "estimated_credits": round(estimated_credits, 2),
             },

@@ -48,6 +48,7 @@ def load_settings(project_root: Path | None = None) -> Settings:
         yaml_config = yaml.safe_load(file_handle) or {}
 
     video_config = yaml_config.get("video", {})
+    heygen_config = yaml_config.get("heygen", {})
     subtitle_style = yaml_config.get("subtitle_style", {})
 
     capcut_draft_folder = _optional_path(os.getenv("CAPCUT_DRAFT_FOLDER"))
@@ -59,17 +60,17 @@ def load_settings(project_root: Path | None = None) -> Settings:
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY"),
         heygen_api_key=os.getenv("HEYGEN_API_KEY"),
-        heygen_avatar_id=os.getenv("HEYGEN_AVATAR_ID"),
+        heygen_avatar_id=_optional_string(heygen_config.get("avatar_id")),
         heygen_voice_id=os.getenv("HEYGEN_VOICE_ID") or None,
-        heygen_scene_fit=os.getenv("HEYGEN_SCENE_FIT") or None,
-        heygen_use_avatar_iv_model=_optional_bool(os.getenv("HEYGEN_USE_AVATAR_IV_MODEL"), default=False),
-        heygen_talking_photo_scale=_optional_float(os.getenv("HEYGEN_TALKING_PHOTO_SCALE")),
+        heygen_scene_fit=_optional_string(heygen_config.get("scene_fit")),
+        heygen_use_avatar_iv_model=_coerce_bool(heygen_config.get("use_avatar_iv_model"), default=False),
+        heygen_talking_photo_scale=_coerce_float(heygen_config.get("talking_photo_scale")),
         heygen_talking_photo_offset_x=_optional_float(os.getenv("HEYGEN_TALKING_PHOTO_OFFSET_X")),
         heygen_talking_photo_offset_y=_optional_float(os.getenv("HEYGEN_TALKING_PHOTO_OFFSET_Y")),
-        avatar_playback_speed=float(os.getenv("AVATAR_PLAYBACK_SPEED", "1.25")),
+        avatar_playback_speed=_coerce_float(heygen_config.get("avatar_playback_speed"), default=1.25),
         capcut_api_workdir=capcut_api_workdir,
         capcut_draft_folder=capcut_draft_folder,
-        capcut_api_url=os.getenv("CAPCUT_API_URL", "http://localhost:9001"),
+        capcut_api_url=os.getenv("CAPCUT_API_URL", "http://localhost:9000"),
         instagram_cookie_file=instagram_cookie_path,
         log_level=os.getenv("LOG_LEVEL", "INFO"),
         video_width=int(video_config.get("width", 1080)),
@@ -96,4 +97,28 @@ def _optional_float(raw_value: str | None) -> float | None:
     """Parse optional float values from environment variables."""
     if raw_value is None or not raw_value.strip():
         return None
+    return float(raw_value)
+
+
+def _optional_string(raw_value: Any) -> str | None:
+    """Return a stripped string when present, otherwise `None`."""
+    if raw_value is None:
+        return None
+    value = str(raw_value).strip()
+    return value or None
+
+
+def _coerce_bool(raw_value: Any, default: bool) -> bool:
+    """Coerce YAML or string-like values into a boolean."""
+    if raw_value is None:
+        return default
+    if isinstance(raw_value, bool):
+        return raw_value
+    return str(raw_value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _coerce_float(raw_value: Any, default: float | None = None) -> float | None:
+    """Coerce YAML numeric values into a float."""
+    if raw_value is None:
+        return default
     return float(raw_value)

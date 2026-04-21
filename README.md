@@ -51,8 +51,19 @@ cp .env.example .env
 ```env
 OPENAI_API_KEY=...
 HEYGEN_API_KEY=...
-HEYGEN_AVATAR_ID=...
 CAPCUT_DRAFT_FOLDER=/Users/<YOUR_NAME>/Movies/CapCut/User Data/Projects/com.lveditor.draft
+```
+
+HeyGen の共通設定値は `config/settings.yaml` で管理します。
+現状は次の値をチーム共通の固定値として扱います。
+
+```yaml
+heygen:
+  avatar_id: c1f1e2a47f4e4f58b1e16fdc87642bde
+  scene_fit: crop
+  use_avatar_iv_model: true
+  talking_photo_scale: 2.8
+  avatar_playback_speed: 1.25
 ```
 
 3. Instagram にローカルの Chrome でログインして、`cookies.txt` を作る
@@ -130,7 +141,7 @@ python src/main.py "https://www.instagram.com/reel/XXXXX" --verbose
 ## フェーズごとの確認目安
 
 - Phase 1: HeyGen の設定が未投入でも `script.txt` までは生成されます。
-- Phase 2-3: `HEYGEN_API_KEY` と `HEYGEN_AVATAR_ID` を設定すると `avatar_video.mp4` と `subtitle.srt` まで進みます。
+- Phase 2-3: `HEYGEN_API_KEY` を設定すると `avatar_video.mp4` と `subtitle.srt` まで進みます。
 - Phase 4-5: CapCutAPI をセットアップし、`CAPCUT_DRAFT_FOLDER` を設定すると CapCut Desktop 用ドラフト生成とコピーまで進みます。
 - Phase 6-7: `config/instagram_cookies.txt` を置くと `--url` フローが使えます。
 
@@ -180,6 +191,7 @@ CAPCUT_API_URL=http://localhost:9000
 ## 注意事項
 
 - API キーや Instagram クッキーは絶対にコミットしないでください。
+- 共通の HeyGen 設定を変える場合は `.env` ではなく `config/settings.yaml` を更新してください。
 - `config/instagram_cookies.txt` は `chmod 600` を推奨します。
 - ログと `metadata.json` に秘密情報は出力しない実装にしています。
 - CapCut 連携はブラウザ版ではなく、デスクトップ版 CapCut 前提です。
