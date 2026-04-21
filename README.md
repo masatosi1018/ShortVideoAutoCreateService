@@ -168,12 +168,13 @@ curl http://localhost:9000/create_draft \
   -d '{"width":1080,"height":1920}'
 ```
 
-`.env` の CapCut 関連はこの 2 つを入れてください。
+通常は `.env` に `CAPCUT_DRAFT_FOLDER` だけ入れれば十分です。
+次の値はコード側デフォルトがあるので、変更したいときだけローカル `.env` に追加してください。
 
 ```env
-CAPCUT_API_WORKDIR=./external/CapCutAPI
 CAPCUT_DRAFT_FOLDER=/Users/<YOUR_NAME>/Movies/CapCut/User Data/Projects/com.lveditor.draft
 CAPCUT_API_URL=http://localhost:9000
+CAPCUT_API_WORKDIR=./external/CapCutAPI
 ```
 
 ## 出力
