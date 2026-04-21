@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spiritual-shorts-factory"
+version = "0.1.0"
+description = "Semi-automated short-video production pipeline for HeyGen and CapCut."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "openai>=1.30.0",
+  "python-dotenv>=1.0.1",
+  "PyYAML>=6.0.1",
+  "requests>=2.31.0",
+  "rich>=13.7.1",
+  "yt-dlp>=2024.8.6",
+]
+
+[project.scripts]
+spiritual-shorts-factory = "main:run"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

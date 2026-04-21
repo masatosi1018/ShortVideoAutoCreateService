@@ -1,0 +1,12 @@
+.env
+.venv/
+.mamba/
+.tools/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.DS_Store
+outputs/
+config/instagram_cookies.txt
+external/CapCutAPI/
+.pytest_cache/

@@ -1,0 +1,11 @@
+video:
+  width: 1080
+  height: 1920
+
+subtitle_style:
+  font_size: 48
+  font_color: "#FFFFFF"
+  shadow_enabled: true
+  shadow_color: "#000000"
+  background_alpha: 0.0
+  position_y: 0.5
